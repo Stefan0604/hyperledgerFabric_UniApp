@@ -52,7 +52,7 @@ class StudentExamRegistrationContract extends Contract {
         let key = Util.makeKey([examName, matriculationNumber]);
         let result = await ctx.stub.getState(key);
 
-        let studentExamRegistration = Util.deserialize(result);
+        let studentExamRegistration = StudentExamRegistration.fromBuffer(result);
 
         if (studentExamRegistration.isGraded()){
             throw new Error('The student with matriculationnumber ' + matriculationNumber + ' was already graded for exam ' + examName);
@@ -68,7 +68,7 @@ class StudentExamRegistrationContract extends Contract {
     async queryAllEntries(ctx) {
         const allResults = [];
         for await (const {key, value} of ctx.stub.getStateByPartialCompositeKey("StudentExamRegistration",[])) {
-            let record = Util.deserialize(value, StudentExamRegistration);
+            let record = StudentExamRegistration.fromBuffer(value);
             allResults.push({ Key: key, Record: record });
         }
         console.info(allResults);

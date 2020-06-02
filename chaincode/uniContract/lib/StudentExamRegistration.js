@@ -45,7 +45,7 @@ class StudentExamRegistration {
     }
 
     static fromBuffer(buffer) {
-        return Util.deserializeClass(buffer, StudentExamRegistration);
+        return Util.deserialize(buffer, StudentExamRegistration);
     }
 
     toBuffer() {

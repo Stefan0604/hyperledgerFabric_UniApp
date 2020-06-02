@@ -16,27 +16,12 @@ class Util {
     }
 
     /**
-     * Deserialize object into one of a set of supported JSON classes
-     * i.e. Covert serialized data to JSON object
-     * Typically used after getState() ledger API
-     * @param {data} data to deserialize into JSON object
-     * @param (supportedClasses) the set of classes data can be serialized to
-     * @return {json} json with the data to store
-     */
-    static deserialize(data, objClass) {
-        let json = JSON.parse(data.toString());
-        let object = new (objClass)(json);
-
-        return object;
-    }
-
-    /**
      * Deserialize object into specific object class
      * Typically used after getState() ledger API
      * @param {data} data to deserialize into JSON object
      * @return {json} json with the data to store
      */
-    static deserializeClass(data, objClass) {
+    static deserialize(data, objClass) {
         let json = JSON.parse(data.toString());
         let object = new (objClass)(json);
         return object;
