@@ -32,11 +32,15 @@ class Util {
      * @param (String[]) keyParts
      */
     static makeKey(keyParts) {
-        return keyParts.map(part => JSON.stringify(part)).join(':');
+        return keyParts.map(part => part.toString()).join(':');
     }
 
     static splitKey(key){
         return key.split(':');
+    }
+
+    static createDateKey(date){
+        return date.getYear().toString() + "-" + date.getMonth().toString() + "-" + date.getDay().toString();
     }
 
 }

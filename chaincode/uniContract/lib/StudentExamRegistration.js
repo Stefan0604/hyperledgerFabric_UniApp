@@ -10,9 +10,13 @@ const examState = {
 class StudentExamRegistration {
 
     constructor(obj) {
-        this.key = Util.makeKey([obj.examName, obj.matriculationNumber]);
+        this.key = Util.makeKey([
+            obj.matriculationNumber,
+            obj.examName,
+            (obj.examDate instanceof Date) ? Util.createDateKey(obj.examDate) : Util.createDateKey(new Date(obj.examDate))]);
         this.currentState = examState.REGISTERED;
         Object.assign(this, obj);
+        this.examDate =  (obj.examDate instanceof Date) ? obj.examDate : new Date(obj.examDate);
     }
 
     getKey() {
@@ -25,6 +29,10 @@ class StudentExamRegistration {
 
     getExamName() {
         return this.examName;
+    }
+
+    getExamDate() {
+        return this.examDate;
     }
 
     getMatriculationNumber() {
@@ -52,8 +60,8 @@ class StudentExamRegistration {
         return Buffer.from(JSON.stringify(this));
     }
 
-    static createInstance(examName, matriculationNumber) {
-        return new StudentExamRegistration({ examName, matriculationNumber});
+    static createInstance(matriculationNumber, examName, examDate) {
+        return new StudentExamRegistration({matriculationNumber, examName, examDate});
     }
 
     static getClass() {

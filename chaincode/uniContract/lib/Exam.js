@@ -5,12 +5,14 @@ const Util = require('../ledger-api/Util.js');
 class Exam {
 
     constructor(obj) {
-        this.key = Util.makeKey([
-            obj.matriculationNumber,
-            obj.startTime.getYear().toStrint() + "-" + obj.startTime.getMonth().toStrint() + "-" + obj.startTime.getDay().toStrint()
-        ]);
-        this.currentState = examState.ENROLLED;
+        let keyParts = [
+            obj.name,
+            (obj.startTime instanceof Date) ? Util.createDateKey(obj.startTime) : Util.createDateKey(new Date(obj.startTime))
+        ];
+        this.key = Util.makeKey(keyParts);
         Object.assign(this, obj);
+        this.startTime =  (obj.startTime instanceof Date) ? obj.startTime : new Date(obj.startTime);
+        this.endTime =  (obj.endTime instanceof Date) ? obj.endTime : new Date(obj.endTime);
     }
 
     getKey() {
@@ -22,15 +24,7 @@ class Exam {
     }
 
     getName() {
-        return this.Name;
-    }
-
-    getMatriculationNumber() {
-        return this.matriculationNumber;
-    }
-
-    getEMail() {
-        return this.getEMail;
+        return this.name;
     }
 
     getStartTime() {
@@ -41,20 +35,24 @@ class Exam {
         return this.endTime;
     }
 
+    getECTS() {
+        return this.ECTS;
+    }
+
     static fromBuffer(buffer) {
-        return Util.deserializeClass(buffer);
+        return Util.deserialize(buffer, Exam);
     }
 
     toBuffer() {
         return Buffer.from(JSON.stringify(this));
     }
 
-    static createInstance(examName, matriculationNumber) {
-        return new Exam({ examName, matriculationNumber});
+    static createInstance(name, startTime, endTime, ECTS) {
+        return new Exam({name, startTime, endTime, ECTS});
     }
 
     static getClass() {
-        return 'org.universitynet.student';
+        return 'org.universitynet.exam';
     }
 }
 

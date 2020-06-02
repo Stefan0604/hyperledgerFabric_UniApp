@@ -11,7 +11,7 @@ class Student {
 
     constructor(obj) {
         this.key = Util.makeKey([obj.matriculationNumber]);
-        this.currentState = examState.ENROLLED;
+        this.currentState = studentState.ENROLLED;
         Object.assign(this, obj);
     }
 
@@ -44,19 +44,19 @@ class Student {
     }
 
     isDeregistered() {
-        return this.currentState === examState.DEREGISTERED;
+        return this.currentState === studentState.DEREGISTERED;
     }
 
     static fromBuffer(buffer) {
-        return Util.deserializeClass(buffer);
+        return Util.deserialize(buffer, Student);
     }
 
     toBuffer() {
         return Buffer.from(JSON.stringify(this));
     }
 
-    static createInstance(examName, matriculationNumber) {
-        return new Student({ examName, matriculationNumber});
+    static createInstance(matriculationNumber, name, email) {
+        return new Student({ matriculationNumber, name, email});
     }
 
     static getClass() {
