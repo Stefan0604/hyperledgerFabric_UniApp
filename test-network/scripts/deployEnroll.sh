@@ -202,7 +202,7 @@ chaincodeQuery() {
     sleep $DELAY
     echo "Attempting to Query peer0.org${ORG} ...$(($(date +%s) - starttime)) secs"
     set -x
-    peer chaincode query -C $CHANNEL_NAME -n enroll -c '{"Args":["queryAllEntries"]}' >&log.txt
+    peer chaincode query -C $CHANNEL_NAME -n enroll -c '{"Args":["queryAllStudents"]}' >&log.txt
     res=$?
     set +x
 		let rc=$res
@@ -260,7 +260,6 @@ chaincodeInvokeInit 1 2
 
 sleep 10
 
-# Query chaincode on peer0.org1
 echo "Querying chaincode on peer0.org1..."
 chaincodeQuery 1
 

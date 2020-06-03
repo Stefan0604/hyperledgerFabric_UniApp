@@ -393,6 +393,18 @@ function deployEnroll() {
   exit 0
 }
 
+function register() {
+
+  scripts/registerTest.sh $CHANNEL_NAME $CC_SRC_LANGUAGE $VERSION $CLI_DELAY $MAX_RETRY $VERBOSE
+
+  if [ $? -ne 0 ]; then
+    echo "ERROR !!! Deploying chaincode failed"
+    exit 1
+  fi
+
+  exit 0
+}
+
 # Tear down running network
 function networkDown() {
   # stop org3 containers also in addition to org1 and org2, in case we were running sample to add org3
@@ -555,6 +567,9 @@ elif [ "$MODE" == "deployCC" ]; then
 elif [ "$MODE" == "deployEnroll" ]; then
   echo "deploying enroll chaincode on channel '${CHANNEL_NAME}'"
   echo
+elif [ "$MODE" == "register" ]; then
+  echo "running register chaincode on channel '${CHANNEL_NAME}'"
+  echo
 else
   printHelp
   exit 1
@@ -568,6 +583,8 @@ elif [ "${MODE}" == "deployCC" ]; then
   deployCC
 elif [ "${MODE}" == "deployEnroll" ]; then
   deployEnroll
+elif [ "${MODE}" == "register" ]; then
+  register
 elif [ "${MODE}" == "down" ]; then
   networkDown
 elif [ "${MODE}" == "restart" ]; then
