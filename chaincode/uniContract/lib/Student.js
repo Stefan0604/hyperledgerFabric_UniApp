@@ -3,7 +3,7 @@
 const Util = require('../ledger-api/Util.js');
 
 const studentState = {
-    ENROLLED: 1,    
+    ENROLLED: 1,
     DEREGISTERED: 2,
 };
 

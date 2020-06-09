@@ -36,7 +36,7 @@ class StudentExamRegistrationContract extends Contract {
                 ECTS: "5"
             },
             {
-                name: "Linear Algebra",
+                name: "Linear-Algebra",
                 startTime: "2020-07-28T08:00:00Z",
                 endTime: "2020-07-28T11:00:00Z",
                 ECTS: "8"
@@ -56,12 +56,12 @@ class StudentExamRegistrationContract extends Contract {
                 matriculationNumber: "0123456"
             },
             {
-                examName: "Linear Algebra",
+                examName: "Linear-Algebra",
                 examDate: "2020-07-28",
                 matriculationNumber: "0123456"
             },
             {
-                examName: "Linear Algebra",
+                examName: "Linear-Algebra",
                 examDate: "2020-07-28",
                 matriculationNumber: "0123457"
             }
@@ -96,8 +96,8 @@ class StudentExamRegistrationContract extends Contract {
             console.info('Added <--> ', examRegistrations[i]);
         }
 
-        
-        for (let i = 0; i < examGradings.length; i++) {        
+
+        for (let i = 0; i < examGradings.length; i++) {
             let examRegistration = StudentExamRegistration.createInstance(examGradings[i].matriculationNumber, examGradings[i].examName, examGradings[i].examDate);
 
             examRegistration.setGrade(examGradings[i].grade);
@@ -138,7 +138,7 @@ class StudentExamRegistrationContract extends Contract {
 
         let iterator = await ctx.stub.getStateByPartialCompositeKey("Student", attributes);
         let firstElement = await iterator.next();
-        
+
         if (firstElement && firstElement.value){
             student = Student.fromBuffer(firstElement.value.value);
         }
@@ -165,18 +165,18 @@ class StudentExamRegistrationContract extends Contract {
         const studentAttributes = [matriculationNumber];
 
         let studentIterator = await ctx.stub.getStateByPartialCompositeKey("Student", studentAttributes);
-        let studentFirstElement = await studentIterator.next()
+        let studentFirstElement = await studentIterator.next();
 
-        
+
         if (!studentFirstElement || !studentFirstElement.value){
             throw Error("Student does not exist");
         }
-        
+
         const examAttributes = [examName, Util.createDateKey(new Date(examDate))];
-        
+
         let examIterator = await ctx.stub.getStateByPartialCompositeKey("Exam", examAttributes);
         let examFirstElement = await examIterator.next();
-        
+
         if (!examFirstElement || !examFirstElement.value){
             throw Error("Exam does not exist");
         }
@@ -219,13 +219,14 @@ class StudentExamRegistrationContract extends Contract {
         }
 
 
-        examRegistration = StudentExamRegistration.fromBuffer(examRegistrationFirstElement.value.value);
+        let examRegistration = StudentExamRegistration.fromBuffer(examRegistrationFirstElement.value.value);
 
         if (examRegistration.isGraded()){
             throw new Error('The student with matriculationnumber ' + matriculationNumber + ' was already graded for exam ' + examName + ' on the ' + examDate);
         }
 
         examRegistration.setGrade(grade);
+        let data = examRegistration.toBuffer();
 
         await ctx.stub.putState(examRegistrationFirstElement.value.key, data);
 
