@@ -25,7 +25,7 @@ elif [ "${MODE}" == "queryAllExams" ]; then
 elif [ "${MODE}" == "queryAllStudents" ]; then
   ./runChaincode.sh query '{"Args":["queryAllStudents"]}'
 elif [ "${MODE}" == "getStudentSuccess" ]; then
-  ./runChaincode.sh invoke '{"function":"getStudentSuccess","Args":["'"${2}"'"]}'
+  ./runChaincode.sh query '{"function":"getStudentSuccess","Args":["'"${2}"'"]}'
 else
   echo "USAGE: Argument should be either 'queryAllStudents' or 'registerStudent' followed by id-number, name and email."
   cd ../

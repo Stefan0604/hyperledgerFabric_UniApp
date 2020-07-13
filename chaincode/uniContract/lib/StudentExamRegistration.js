@@ -31,10 +31,6 @@ class StudentExamRegistration {
         return this.examName;
     }
 
-    getExamDate() {
-        return this.examDate;
-    }
-
     getMatriculationNumber() {
         return this.matriculationNumber;
     }
